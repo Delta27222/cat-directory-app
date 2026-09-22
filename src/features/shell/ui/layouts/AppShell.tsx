@@ -1,0 +1,10 @@
+import { Topbar } from '../components/Topbar';
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <Topbar />
+      {children}
+    </div>
+  );
+}

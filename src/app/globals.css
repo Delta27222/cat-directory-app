@@ -1,0 +1,10 @@
+/* Tailwind v4 entrypoint (CSS-first) */
+@import "tailwindcss";
+
+/* Primitivos de color + capa semántica de shadcn (después de tailwindcss). */
+@import "../styles/theme.css";
+
+@theme {
+  --font-sans:
+    var(--font-manrope), -apple-system, "Segoe UI", Arial, sans-serif;
+}

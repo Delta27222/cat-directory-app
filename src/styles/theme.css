@@ -1,0 +1,117 @@
+/* NOTE: @import "tailwindcss" lo provee `app/globals.css`. */
+
+@import "tw-animate-css";
+@import "./color-variables.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* -----------------------------------------------------------------------------
+   Capa semántica
+   -----------------------------------------------------------------------------
+   Cada token de shadcn apunta a un primitivo. Los componentes leen `--primary`
+   o `--border` y salen en marca sin que nadie les pase `className`.
+
+   Regla: una vista usa la capa semántica (`bg-primary`, `border-border`). Los
+   primitivos (`brand-600`, `gray-200`) se tocan solo acá.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --background: var(--color-gray-50);
+  --foreground: var(--color-gray-900);
+
+  --card: var(--color-base-white);
+  --card-foreground: var(--color-gray-900);
+  --popover: var(--color-base-white);
+  --popover-foreground: var(--color-gray-900);
+
+  --primary: var(--color-brand-600);
+  --primary-foreground: var(--color-base-white);
+
+  --secondary: var(--color-gray-100);
+  --secondary-foreground: var(--color-gray-900);
+
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-500);
+
+  --accent: var(--color-brand-50);
+  --accent-foreground: var(--color-brand-800);
+
+  --destructive: var(--color-error-600);
+  --destructive-foreground: var(--color-base-white);
+
+  --success: var(--color-success-600);
+
+  --border: var(--color-gray-200);
+  --input: var(--color-gray-200);
+  --ring: var(--color-brand-600);
+
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: var(--color-gray-950);
+  --foreground: var(--color-gray-100);
+
+  --card: var(--color-gray-900);
+  --card-foreground: var(--color-gray-100);
+  --popover: var(--color-gray-900);
+  --popover-foreground: var(--color-gray-100);
+
+  /* En oscuro el 600 pierde contraste contra el fondo: sube a 500. */
+  --primary: var(--color-brand-500);
+  --primary-foreground: var(--color-base-white);
+
+  --secondary: var(--color-gray-800);
+  --secondary-foreground: var(--color-gray-100);
+
+  --muted: var(--color-gray-800);
+  --muted-foreground: var(--color-gray-400);
+
+  --accent: var(--color-brand-900);
+  --accent-foreground: var(--color-brand-100);
+
+  --destructive: var(--color-error-500);
+  --destructive-foreground: var(--color-base-white);
+
+  --success: var(--color-success-500);
+
+  --border: var(--color-gray-800);
+  --input: var(--color-gray-800);
+  --ring: var(--color-brand-500);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
