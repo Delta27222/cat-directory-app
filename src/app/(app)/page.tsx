@@ -1,7 +1,10 @@
-export default function Page() {
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1>Hello World</h1>
-    </div>
-  );
+import { BreedsPage } from '@/features/breeds/ui/pages/BreedsPage';
+
+/** Se renderiza por request (SSR): lee los filtros de la URL. */
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  return <BreedsPage searchParams={await searchParams} />;
 }
