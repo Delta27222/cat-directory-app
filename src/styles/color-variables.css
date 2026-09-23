@@ -1,38 +1,28 @@
 /* _Primitives
-   Rampa de colores cruda. Solo la capa semántica (`theme.css`) los consume:
-   una vista usa `bg-primary` o `border-border`, nunca `brand-600`. */
+   Paleta del sistema de diseño: fondo cálido, tinta casi negra y un solo
+   acento. Solo la capa semántica (`theme.css`) los consume: una vista usa
+   `bg-primary` o `border-border`, nunca `ink-900`. */
 @theme {
-  --color-base-black: #000000;
   --color-base-white: #ffffff;
 
-  /* Grises — rampa Zinc. */
-  --color-gray-50: #fafafa;
-  --color-gray-100: #f4f4f5;
-  --color-gray-200: #e4e4e7;
-  --color-gray-300: #d4d4d8;
-  --color-gray-400: #a1a1aa;
-  --color-gray-500: #71717a;
-  --color-gray-600: #52525b;
-  --color-gray-700: #3f3f46;
-  --color-gray-800: #27272a;
-  --color-gray-900: #18181b;
-  --color-gray-950: #09090b;
+  /* Claro. */
+  --color-sand-50: #f7f6f3; /* Fondo */
+  --color-sand-200: #e6e4de; /* Borde */
+  --color-ink-900: #1a1a18; /* Tinta */
+  --color-stone-600: #62615c; /* Secundario */
+  --color-rust-600: #b4481f; /* Acento */
 
-  /* Marca — naranja atigrado. El 600 es la acción principal. */
-  --color-brand-50: #fff7ed;
-  --color-brand-100: #ffedd5;
-  --color-brand-200: #fed7aa;
-  --color-brand-300: #fdba74;
-  --color-brand-400: #fb923c;
-  --color-brand-500: #f97316;
-  --color-brand-600: #ea580c;
-  --color-brand-700: #c2410c;
-  --color-brand-800: #9a3412;
-  --color-brand-900: #7c2d12;
+  /* Oscuro. */
+  --color-night-950: #121211; /* Fondo */
+  --color-night-900: #1a1a18; /* Superficie */
+  --color-night-800: #2b2a27; /* Borde */
+  --color-paper-100: #edece8; /* Tinta */
+  --color-stone-400: #a3a29c; /* Secundario */
+  --color-rust-400: #f0875a; /* Acento */
 
-  --color-success-500: #22c55e;
+  /* Estado (toasts). */
+  --color-success-500: #4ade80;
   --color-success-600: #16a34a;
-  --color-warning-500: #f59e0b;
-  --color-error-500: #ef4444;
+  --color-error-400: #f87171;
   --color-error-600: #dc2626;
 }

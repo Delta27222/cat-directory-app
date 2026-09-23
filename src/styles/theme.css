@@ -16,68 +16,82 @@
    -------------------------------------------------------------------------- */
 
 :root {
-  --background: var(--color-gray-50);
-  --foreground: var(--color-gray-900);
+  --background: var(--color-sand-50);
+  --foreground: var(--color-ink-900);
 
   --card: var(--color-base-white);
-  --card-foreground: var(--color-gray-900);
+  --card-foreground: var(--color-ink-900);
   --popover: var(--color-base-white);
-  --popover-foreground: var(--color-gray-900);
+  --popover-foreground: var(--color-ink-900);
 
-  --primary: var(--color-brand-600);
+  /* El botón primario es tinta, no acento: el acento queda para el foco. */
+  --primary: var(--color-ink-900);
   --primary-foreground: var(--color-base-white);
 
-  --secondary: var(--color-gray-100);
-  --secondary-foreground: var(--color-gray-900);
+  --secondary: var(--color-base-white);
+  --secondary-foreground: var(--color-ink-900);
 
-  --muted: var(--color-gray-100);
-  --muted-foreground: var(--color-gray-500);
+  /* `muted` es el fondo de hover/skeleton; su texto es el gris "Secundario". */
+  --muted: var(--color-sand-50);
+  --muted-foreground: var(--color-stone-600);
 
-  --accent: var(--color-brand-50);
-  --accent-foreground: var(--color-brand-800);
+  /* `accent` es el hover de shadcn (ghost, outline), no el color de marca. */
+  --accent: var(--color-sand-50);
+  --accent-foreground: var(--color-ink-900);
+
+  /* El único acento del sistema. */
+  --brand: var(--color-rust-600);
+  --brand-foreground: var(--color-base-white);
 
   --destructive: var(--color-error-600);
   --destructive-foreground: var(--color-base-white);
 
   --success: var(--color-success-600);
 
-  --border: var(--color-gray-200);
-  --input: var(--color-gray-200);
-  --ring: var(--color-brand-600);
+  --border: var(--color-sand-200);
+  --input: var(--color-sand-200);
+  --ring: var(--color-rust-600);
 
-  --radius: 0.625rem;
+  /* Los toasts son oscuros en los dos temas. */
+  --toast: var(--color-ink-900);
+  --toast-foreground: var(--color-base-white);
 }
 
 .dark {
-  --background: var(--color-gray-950);
-  --foreground: var(--color-gray-100);
+  --background: var(--color-night-950);
+  --foreground: var(--color-paper-100);
 
-  --card: var(--color-gray-900);
-  --card-foreground: var(--color-gray-100);
-  --popover: var(--color-gray-900);
-  --popover-foreground: var(--color-gray-100);
+  --card: var(--color-night-900);
+  --card-foreground: var(--color-paper-100);
+  --popover: var(--color-night-900);
+  --popover-foreground: var(--color-paper-100);
 
-  /* En oscuro el 600 pierde contraste contra el fondo: sube a 500. */
-  --primary: var(--color-brand-500);
-  --primary-foreground: var(--color-base-white);
+  --primary: var(--color-paper-100);
+  --primary-foreground: var(--color-ink-900);
 
-  --secondary: var(--color-gray-800);
-  --secondary-foreground: var(--color-gray-100);
+  --secondary: var(--color-night-900);
+  --secondary-foreground: var(--color-paper-100);
 
-  --muted: var(--color-gray-800);
-  --muted-foreground: var(--color-gray-400);
+  --muted: var(--color-night-800);
+  --muted-foreground: var(--color-stone-400);
 
-  --accent: var(--color-brand-900);
-  --accent-foreground: var(--color-brand-100);
+  --accent: var(--color-night-800);
+  --accent-foreground: var(--color-paper-100);
 
-  --destructive: var(--color-error-500);
-  --destructive-foreground: var(--color-base-white);
+  --brand: var(--color-rust-400);
+  --brand-foreground: var(--color-ink-900);
+
+  --destructive: var(--color-error-400);
+  --destructive-foreground: var(--color-ink-900);
 
   --success: var(--color-success-500);
 
-  --border: var(--color-gray-800);
-  --input: var(--color-gray-800);
-  --ring: var(--color-brand-500);
+  --border: var(--color-night-800);
+  --input: var(--color-night-800);
+  --ring: var(--color-rust-400);
+
+  --toast: var(--color-night-800);
+  --toast-foreground: var(--color-paper-100);
 }
 
 @theme inline {
@@ -97,14 +111,45 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
   --color-success: var(--success);
+  --color-toast: var(--toast);
+  --color-toast-foreground: var(--toast-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* -----------------------------------------------------------------------------
+   Espacio, forma y tipografía
+   -----------------------------------------------------------------------------
+   Base de espaciado 4 px (el `--spacing` por defecto de Tailwind).
+   -------------------------------------------------------------------------- */
+@theme {
+  /* Radios: 6 kbd/skeleton · 10 controles · 12 superficies. */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 12px;
+
+  /* Contenido a 880 px de ancho máximo → `max-w-content`. */
+  --container-content: 880px;
+
+  /* Filas de altura fija para el virtualizador → `h-row` / `h-row-mobile`. */
+  --spacing-row: 56px;
+  --spacing-row-mobile: 64px;
+
+  /* Instrument Serif 88/56/40 → `text-display-lg|md|sm`. */
+  --text-display-lg: 88px;
+  --text-display-lg--line-height: 1;
+  --text-display-md: 56px;
+  --text-display-md--line-height: 1.05;
+  --text-display-sm: 40px;
+  --text-display-sm--line-height: 1.1;
+  /* Geist 500 · 15 (nombre de raza en la lista) → `text-body`. */
+  --text-body: 15px;
+  --text-body--line-height: 1.5;
 }
 
 @layer base {
