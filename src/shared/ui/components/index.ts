@@ -1,3 +1,5 @@
+export { Breadcrumb } from './Breadcrumb';
+export type { BreadcrumbItem } from './Breadcrumb';
 export { EmptyState } from './EmptyState';
 export { ErrorState } from './ErrorState';
 export { PageHeader } from './PageHeader';
