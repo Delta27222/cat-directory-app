@@ -3,7 +3,7 @@ import { PageShell, RedirectHome } from '@/shared/ui/components';
 
 /** Gato confundido hecho con símbolos. */
 const LOST_CAT = String.raw`
-   /\_/\     ?
+     /\_/\     ?
   ( o.O )  ?
    > ^ <
   /|   |\
