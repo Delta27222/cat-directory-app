@@ -1,5 +1,72 @@
 # cat-directory-app
 
+**Demo:** [cat-directory-app-kappa.vercel.app](https://cat-directory-app-kappa.vercel.app)
+
+
+## Arquitectura
+
+```
+src/
+├── app/                      # Rutas (App Router)
+│   └── (app)/
+│       ├── page.tsx          # Listado (/)
+│       ├── error.tsx         # Límite de error con "Reintentar"
+│       └── breed/[id]/       # Detalle (page, layout, template con animación)
+├── core/                     # Sin React: API y modelos
+│   ├── api/                  # httpClient (único fetch) + endpoints de razas
+│   └── models/breeds/        # Esquemas Zod, modelo y mapper DTO → Breed
+├── features/
+│   ├── breeds/
+│   │   ├── domain/           # Filtros puros (filtrar, opciones, parsear URL)
+│   │   ├── application/      # queries (React Query), store (Zustand), hooks
+│   │   └── ui/               # pages, widgets y componentes de la feature
+│   └── shell/                # Topbar y cambio de tema
+├── shared/                   # Reutilizable entre features (UI, hooks, utils)
+├── ui/components/            # Primitivas de UI: button, card, input, skeleton
+├── context/                  # Providers: React Query, tema, toasts
+└── lib/                      # QueryClient (reintentos, toasts), utilidades
+```
+
+### Por qué esta arquitectura
+
+Se eligió organizar el código **por features y en capas separadas** porque
+cada capa tiene una sola responsabilidad y las dependencias van en un solo
+sentido:
+
+```
+ui  →  application  →  domain / core
+(qué se ve)  (estado y datos)  (reglas y API, sin React)
+```
+
+Una capa de abajo nunca importa de una de arriba: `core` no sabe que existe
+React, y `domain` no sabe que existe la API. Eso da varias ventajas:
+
+- **Cambiar una pieza sin tocar el resto.** Si mañana la API cambia, solo se
+  tocan `core/api` y el mapper; los componentes siguen recibiendo el mismo
+  `Breed`. Si se cambia Zustand por otro gestor, solo cambia
+  `application/stores`: la barra de filtros sigue usando `setFilter` y
+  `clear`.
+- **Fácil de probar.** Las reglas de negocio (`domain/breeds.filters.ts`) son
+  funciones puras, el store de Zustand se crea sin React (`createStore`) y
+  todas las llamadas HTTP pasan por un único `httpClient`, que es el único
+  punto a simular en una prueba.
+- **Un solo lugar para cada cosa.** Hay un único `fetch` (`httpClient`), un
+  único lugar donde se decide qué se reintenta (`lib/get-query-client.ts`) y
+  un único modelo de datos (`Breed`). Nada se repite entre componentes.
+- **Escala por features.** Todo lo de las razas vive en `features/breeds`; una
+  funcionalidad nueva sería otra carpeta con la misma estructura, sin mezclarse
+  con las existentes.
+- **Reutilización.** Lo que no depende de las razas (`SearchBox`, `Breadcrumb`,
+  `Skeleton`, `useDebouncedCallback`…) está en `shared/` y `ui/`, listo para
+  usarse en otra feature.
+- **Límite claro entre servidor y cliente.** Las `pages` son Server Components
+  que traen los datos; los `widgets` son Client Components que manejan la
+  interacción. Así es fácil ver qué corre dónde.
+
+El costo es tener más archivos y carpetas de los que necesitaría una app de
+este tamaño; a cambio, el proyecto queda ordenado para seguir creciendo.
+
+
 Directorio de razas de gatos con datos de [catfact.ninja](https://catfact.ninja).
 Next.js 15 (App Router, SSR `standalone`) + React 19 + TypeScript estricto.
 
@@ -133,34 +200,6 @@ curioso, y los muestra juntos.
 - Al cambiar de tema, el nuevo se revela en un círculo que crece desde el
   botón (View Transitions API). En navegadores sin soporte cambia al instante.
 - El detalle entra con un fundido y una leve subida (`template.tsx`).
-
-## Estructura
-
-```
-src/
-├── app/                      # Rutas (App Router)
-│   └── (app)/
-│       ├── page.tsx          # Listado (/)
-│       ├── error.tsx         # Límite de error con "Reintentar"
-│       └── breed/[id]/       # Detalle (page, layout, template con animación)
-├── core/                     # Sin React: API y modelos
-│   ├── api/                  # httpClient (único fetch) + endpoints de razas
-│   └── models/breeds/        # Esquemas Zod, modelo y mapper DTO → Breed
-├── features/
-│   ├── breeds/
-│   │   ├── domain/           # Filtros puros (filtrar, opciones, parsear URL)
-│   │   ├── application/      # queries (React Query), store (Zustand), hooks
-│   │   └── ui/               # pages, widgets y componentes de la feature
-│   └── shell/                # Topbar y cambio de tema
-├── shared/                   # Reutilizable entre features (UI, hooks, utils)
-├── ui/components/            # Primitivas de UI: button, card, input, skeleton
-├── context/                  # Providers: React Query, tema, toasts
-└── lib/                      # QueryClient (reintentos, toasts), utilidades
-```
-
-Las respuestas de la API se validan con Zod y se convierten a un modelo propio
-(`Breed`): con un `id` estable para la URL (slug del nombre, la API no trae
-uno) y `null` en vez de `""` para los datos que faltan.
 
 ## Diseño
 
